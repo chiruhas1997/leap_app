@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.core.cache import cache
 
 from .utils import get_data
 # Create your views here.
@@ -20,6 +21,7 @@ def fetch(request):
     if request.method == "GET":
         try:
             data = get_data()
+            cache.set('message', "Testing cache")
             return JsonResponse({"success":"True","data":data},status=200)
         except:
             return JsonResponse({"success":"False"},status=500)
@@ -29,4 +31,5 @@ def fetch(request):
 @csrf_exempt
 def get_fact(request):
     if request.method == "GET":
-        return JsonResponse({"text":"this is a cat fact"},status=200)
+        message = cache.get('message')
+        return JsonResponse({"text":"this is a cat fact","data":message},status=200)
