@@ -9,5 +9,5 @@ def get_data():
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    print(response.text)
+    #print(response.text)
     return response.json()

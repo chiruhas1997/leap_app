@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -32,4 +33,13 @@ def fetch(request):
 def get_fact(request):
     if request.method == "GET":
         message = cache.get('message')
-        return JsonResponse({"text":"this is a cat fact","data":message},status=200)
+        print("message is :",message)
+        if message is None or message is '':
+            return JsonResponse({"error":"no_task_has_been_queued_yet"})
+        else:
+            cache.set('message','')
+
+            return JsonResponse({"message":message},status=200)
+    else:
+        return HttpResponse("",status=405)
+

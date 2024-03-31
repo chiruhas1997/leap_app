@@ -16,5 +16,5 @@ def fetch_data_from_url():
     data = get_data()
     message = data[0]["text"]
     logger.info("activated fetch data function")
-    print("message")
+    print(message)
     cache.set('message', message)
